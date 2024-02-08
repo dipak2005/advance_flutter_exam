@@ -32,16 +32,18 @@ class _HomeState extends State<Home> {
             return Text("${snapshot.data?.value}");
           } else if (snapshot.hasData) {
             Joke? data = snapshot.data;
+
             return Column(
               children: [
-                Text("${data?.value}"),
-                // Text("${data?.iconUrl}"),
-
-
+                Text("${data?.createdAt?.hour}"),
+                Text("${data?.id}"),
+                Text("${data?.updatedAt}"),
+                Text("${data?.url}"),
+                Text("${data?.createdAt}"),
               ],
             );
           } else {
-            return CircularProgressIndicator();
+            return Center(child: CircularProgressIndicator());
           }
         },
       ),

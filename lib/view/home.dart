@@ -34,7 +34,7 @@ class _HomeState extends State<Home> {
             Joke? data = snapshot.data;
             return Column(
               children: [
-                Text("${data?.}"),
+                Text("${data?.value}"),
                 // Text("${data?.iconUrl}"),
 
 

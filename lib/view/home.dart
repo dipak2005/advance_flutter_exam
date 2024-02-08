@@ -1,11 +1,10 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_catch_stack
 
-import 'package:advance_flutter/controller/joke_pro.dart';
+import 'dart:ffi';
+
 import 'package:advance_flutter/model/api_helper.dart';
 import 'package:advance_flutter/model/joke_model.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -16,83 +15,74 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   @override
-  void initState() {
-    super.initState();
-  }
-
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Home"),
-      ),
-      body: FutureBuilder(
-        future: ApiHelper().getApiData(),
+        body: SafeArea(
+      child: FutureBuilder(
+        future: ApiHelper().getApiJoke("random"),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
-            return Text("${snapshot.data?.value}");
+            return Text("${snapshot.error}");
           } else if (snapshot.hasData) {
-            Joke? data = snapshot.data;
+            var data = snapshot.data;
 
-            return Column(
-              children: [
-                Text("${data?.createdAt?.hour}"),
-                Text("${data?.id}"),
-                Text("${data?.updatedAt}"),
-                Text("${data?.url}"),
-                Text("${data?.createdAt}"),
-              ],
+            return FutureBuilder(
+              future: ApiHelper().getApiCat("categories"),
+              builder: (BuildContext context, snapshot1) {
+                if(snapshot1.hasError){
+                  return Text("${snapshot1.error}");
+                }else if(snapshot1.hasData){
+                  var data1=snapshot1.data;
+                  return Column(
+                  children: [
+                    Text("${data?.id}"),
+                    ListView.builder(
+                      itemCount:data1?.categories?.length ,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          height: 80,
+                          width: MediaQuery.sizeOf(context).width/3,
+                          decoration: BoxDecoration(color: Colors.amber),
+                          child: Text("${data1?.categories![index]}"),
+                        );
+                      },
+                    ),
+                  ],
+                );
+                }else{
+                  return Center(child: CircularProgressIndicator());
+                }
+              },
             );
           } else {
             return Center(child: CircularProgressIndicator());
           }
         },
       ),
-      // Column(
-      //   children: [
-      //     Text()
-      //     // Consumer<JokePro>(builder: (context, value, child) =>CarouselSlider(
-      //     //   carouselController: value.controller,
-      //     //   items: singerList
-      //     //       .map(
-      //     //         (banner) => InkWell(
-      //     //       onTap: () {},
-      //     //       child: Container(
-      //     //         height: MediaQuery.sizeOf(context).height * 0.4,
-      //     //         width: MediaQuery.sizeOf(context).width,
-      //     //         clipBehavior: Clip.antiAlias,
-      //     //         margin: EdgeInsets.symmetric(horizontal: 2),
-      //     //         decoration: BoxDecoration(
-      //     //           borderRadius: BorderRadius.circular(10),
-      //     //         ),
-      //     //         child: Image.asset(
-      //     //           banner["image"],
-      //     //           fit: BoxFit.cover,
-      //     //         ),
-      //     //       ),
-      //     //     ),
-      //     //   )
-      //     //       .toList(),
-      //     //   options: CarouselOptions(
-      //     //     enlargeCenterPage: true,
-      //     //     enlargeStrategy: CenterPageEnlargeStrategy.zoom,
-      //     //     onPageChanged: (index, reason) {
-      //     //       value.changeIndex(index);
-      //     //     },
-      //     //     autoPlayInterval: Duration(seconds: 3),
-      //     //     aspectRatio: 2.4,
-      //     //     autoPlay: true,
-      //     //     initialPage: value.jIndex,
-      //     //     viewportFraction: 1.3,
-      //     //     autoPlayAnimationDuration: Duration(seconds: 3),
-      //     //     autoPlayCurve: Curves.linear,
-      //     //     clipBehavior: Clip.antiAlias,
-      //     //     scrollDirection: Axis.horizontal,
-      //     //     enlargeFactor: 3,
-      //     //   ),
-      //     // ) ,)
-      //
-      //   ],
-      // ),
+    ));
+  }
+
+  geTCat(String categories) {
+    FutureBuilder(
+      future: ApiHelper().getApiCat(categories),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return Text("${snapshot.error}");
+        } else {
+          var data = snapshot.data;
+          return ListView.builder(
+            itemCount: data?.categories?.length,
+            itemBuilder: (context, index) {
+              var calist = data?.categories![index];
+              return Container(
+                height: MediaQuery.sizeOf(context).height * 0.03,
+                width: MediaQuery.sizeOf(context).width / 5,
+                child: Text("${calist.runtimeType}"),
+              );
+            },
+          );
+        }
+      },
     );
   }
 }

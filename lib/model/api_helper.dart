@@ -23,8 +23,9 @@ class ApiHelper {
     return obj;
   }
 
-  Future<Joke?> getApiCat(String? cat) async {
-    http.Response future = await http.get(Uri.parse(cat!));
+  Future<Joke?> getApiCat(String cat) async {
+    String api = _baseurl + cat;
+    http.Response future = await http.get(Uri.parse(api));
     if (future.statusCode == 200) {
       Map decoDData = jsonDecode(future.body);
       var response = jokeFromJson(future.body);
@@ -34,7 +35,7 @@ class ApiHelper {
   }
 
   Future<Joke?> getApiJoke(String url) async {
-    String api=_baseurl+url;
+    String api = _baseurl + url;
     http.Response future = await http.get(Uri.parse(api));
     if (future.statusCode == 200) {
       Map data = jsonDecode(future.body);

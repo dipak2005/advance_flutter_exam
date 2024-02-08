@@ -29,27 +29,30 @@ class _HomeState extends State<Home> {
             return FutureBuilder(
               future: ApiHelper().getApiCat("categories"),
               builder: (BuildContext context, snapshot1) {
-                if(snapshot1.hasError){
+                if (snapshot1.hasError) {
                   return Text("${snapshot1.error}");
-                }else if(snapshot1.hasData){
-                  var data1=snapshot1.data;
+                } else if (snapshot1.hasData) {
+                  Joke? data1 = snapshot1.data;
+                  // print("nomdjjh${data1?.categories?.length}");
                   return Column(
-                  children: [
-                    Text("${data?.id}"),
-                    ListView.builder(
-                      itemCount:data1?.categories?.length ,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          height: 80,
-                          width: MediaQuery.sizeOf(context).width/3,
-                          decoration: BoxDecoration(color: Colors.amber),
-                          child: Text("${data1?.categories![index]}"),
-                        );
-                      },
-                    ),
-                  ],
-                );
-                }else{
+                    children: [
+                      Text("${data?.id}"),
+                      ListView.builder(
+                        scrollDirection: Axis.horizontal  ,
+                        itemCount: data1?.categories?.length,
+                        itemBuilder: (context, index) {
+                          var ctList=data1?.categories![index];
+                          return Container(
+                            height: 80,
+                            width: MediaQuery.sizeOf(context).width / 3,
+                            decoration: BoxDecoration(color: Colors.amber),
+                            child: Text(ctList),
+                          );
+                        },
+                      ),
+                    ],
+                  );
+                } else {
                   return Center(child: CircularProgressIndicator());
                 }
               },
@@ -62,27 +65,5 @@ class _HomeState extends State<Home> {
     ));
   }
 
-  geTCat(String categories) {
-    FutureBuilder(
-      future: ApiHelper().getApiCat(categories),
-      builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          return Text("${snapshot.error}");
-        } else {
-          var data = snapshot.data;
-          return ListView.builder(
-            itemCount: data?.categories?.length,
-            itemBuilder: (context, index) {
-              var calist = data?.categories![index];
-              return Container(
-                height: MediaQuery.sizeOf(context).height * 0.03,
-                width: MediaQuery.sizeOf(context).width / 5,
-                child: Text("${calist.runtimeType}"),
-              );
-            },
-          );
-        }
-      },
-    );
-  }
+
 }

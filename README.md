@@ -7,6 +7,8 @@
 - Dart language
 - Flutter framework with MVC and Provider architecture
 - using SharedPrefrence local storage delete and add functionality  in app.
+- using shareplus share funny jokes your friends in app.
+- using Connectivity plus show check the internet connection in your app. 
 # screen Shots (ss)
 <img src> ![IMG-20240210-WA0004](https://github.com/dipak2005/advance_flutter_exam/assets/143473007/7a2b87de-c297-4806-8a2f-ed45f56efc27)
 

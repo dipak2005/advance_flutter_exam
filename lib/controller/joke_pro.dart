@@ -16,6 +16,11 @@ class JokePro extends ChangeNotifier {
     notifyListeners();
   }
 
+  void remove(int index){
+    likeList.removeAt(index);
+    notifyListeners();
+  }
+
  void refresh(){
     notifyListeners();
  }

@@ -22,7 +22,8 @@ class _LikeJokeState extends State<LikeJoke> {
   @override
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: Colors.yellow,
+    return Scaffold(
+      backgroundColor: Colors.yellow,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         title: Text("Like Page"),
@@ -32,11 +33,32 @@ class _LikeJokeState extends State<LikeJoke> {
           return ListView.builder(
             itemCount: value.likeList.length,
             itemBuilder: (context, index) {
-             var like= value.likeList[index];
-              return ListTile(shape: Border.all(color: Colors.white,width: 1),
-                leading: Icon(Icons.favorite,color: Colors.red,),
+              var like = value.likeList[index];
+              return ListTile(
+                shape: Border.all(color: Colors.white, width: 1),
+                leading: Icon(
+                  Icons.favorite,
+                  color: Colors.red,
+                ),
                 title: Text(like),
-
+                trailing: IconButton(
+                  onPressed: () {
+                    value.remove(index);
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(
+                      SnackBar(
+                          backgroundColor: Colors.red,
+                          content: Center(
+                            child: Text(
+                              "Delete Your Joke successfully",
+                              style: TextStyle(
+                                  color: Colors.white),
+                            ),
+                          )),
+                    );
+                  },
+                  icon: Icon(Icons.delete_outline,color: Colors.red,),
+                ),
               );
             },
           );

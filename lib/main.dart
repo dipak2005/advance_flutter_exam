@@ -2,6 +2,7 @@
 
 import 'package:advance_flutter/controller/joke_pro.dart';
 import 'package:advance_flutter/view/home.dart';
+import 'package:advance_flutter/view/likejoke.dart';
 import 'package:advance_flutter/view/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -34,6 +35,7 @@ class _MyAppState extends State<MyApp> {
         routes: {
           "/": (context) => Splash(),
           "Home": (context) => Home(),
+          "LikeJoke":(context) => LikeJoke(),
         },
       ),
     );

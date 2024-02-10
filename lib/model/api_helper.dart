@@ -52,6 +52,8 @@ class ApiHelper {
       var data = jsonDecode(future.body);
       var responce = categroryFromJson(future.body);
       print(responce);
+      print("maruname${data}");
+
       return responce;
     }
 

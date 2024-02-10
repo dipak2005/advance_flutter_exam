@@ -9,14 +9,18 @@ import '../model/joke_model.dart';
 class JokePro extends ChangeNotifier {
   int jIndex = 0;
   CarouselController controller = CarouselController();
-  List<Joke> jList = [];
+  List<String> likeList = [];
 
   void changeIndex(int index) {
     jIndex = index;
     notifyListeners();
   }
 
- geTCat(){
-
+ void refresh(){
+    notifyListeners();
+ }
+ void like(String joke){
+    likeList.add(joke);
+    notifyListeners();
  }
 }

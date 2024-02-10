@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'dart:convert';
 import 'dart:ffi';
@@ -30,38 +30,73 @@ class _LikeJokeState extends State<LikeJoke> {
       ),
       body: Consumer<JokePro>(
         builder: (context, value, child) {
-          return ListView.builder(
-            itemCount: value.likeList.length,
-            itemBuilder: (context, index) {
-              var like = value.likeList[index];
-              return ListTile(
-                shape: Border.all(color: Colors.white, width: 1),
-                leading: Icon(
-                  Icons.favorite,
-                  color: Colors.red,
-                ),
-                title: Text(like),
-                trailing: IconButton(
-                  onPressed: () {
-                    value.remove(index);
-                    ScaffoldMessenger.of(context)
-                        .showSnackBar(
-                      SnackBar(
-                          backgroundColor: Colors.red,
-                          content: Center(
-                            child: Text(
-                              "Delete Your Joke successfully",
-                              style: TextStyle(
-                                  color: Colors.white),
-                            ),
-                          )),
+          return (value.likeList.isEmpty)
+              ? Column(
+                  // mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.favorite,
+                      color: Colors.red,
+                      size: 370,
+                    ),
+                    Center(
+                        child: Text(
+                      "Not Like Jokes Yet!!!",
+                      style: TextStyle(
+                          color: Colors.red,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 20),
+                    )),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    ElevatedButton(
+                      style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStatePropertyAll(Colors.red)),
+                      onPressed: () {
+                        Navigator.pushNamed(context, "Home");
+                      },
+                      child: Text(
+                        "Like the Joke",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    )
+                  ],
+                )
+              : ListView.builder(
+                  itemCount: value.likeList.length,
+                  itemBuilder: (context, index) {
+                    var like = value.likeList[index];
+                    return ListTile(
+                      shape: Border.all(color: Colors.white, width: 1),
+                      leading: Icon(
+                        Icons.favorite,
+                        color: Colors.red,
+                      ),
+                      title: Text(like),
+                      trailing: IconButton(
+                        onPressed: () {
+                          value.remove(index);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                                backgroundColor: Colors.red,
+                                content: Center(
+                                  child: Text(
+                                    "Delete Your Joke successfully",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                )),
+                          );
+                        },
+                        icon: Icon(
+                          Icons.delete_outline,
+                          color: Colors.red,
+                        ),
+                      ),
                     );
                   },
-                  icon: Icon(Icons.delete_outline,color: Colors.red,),
-                ),
-              );
-            },
-          );
+                );
         },
       ),
     );
